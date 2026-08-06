@@ -1,0 +1,1 @@
+import{i as e}from"./index-Vdrq1f5U.js";function t(t,n){return t===0||e[t-1].lines.every(e=>(n[e.id]?.stars||0)>0)}function n(e,t,n){return t===0||(n[e.lines[t-1].id]?.stars||0)>0}export{n,t};
