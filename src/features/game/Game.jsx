@@ -19,12 +19,16 @@ export default function Game({ line, audio, done, back, explore, play }) {
     startNow = useRef(null);
   const station = line.stations[idx],
     target = normalizeTypingText(station);
-  useEffect(() => input.current?.focus(), [idx]);
-  const type = useCallback(
-    (e) => {
-      // Some browsers briefly report the full hidden-input value during very
-      // rapid typing. The newest character is the only one not yet processed.
-      const raw = e.target.value.slice(-1);
+  useEffect(() => {
+    if (!input.current) return;
+    input.current.value = "";
+    input.current.focus();
+  }, [idx]);
+  const processInput = useCallback(
+    (value) => {
+      // Process only the newest character. Mobile keyboards can replace the
+      // hidden input's full value while applying predictions or corrections.
+      const raw = value.slice(-1);
       for (const char of raw) {
         if (!/[a-zA-Z0-9]/.test(char)) continue;
         const begun = startNow.current || Date.now();
@@ -83,12 +87,12 @@ export default function Game({ line, audio, done, back, explore, play }) {
       if (e.target === input.current) return;
       if (/^[a-z0-9]$/i.test(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
-        type({ target: { value: e.key } });
+        processInput(e.key);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [type]);
+  }, [processInput]);
   const postRouteAction = getPostRouteAction(countries, line, result?.stars);
   const primaryAction = {
     label: postRouteAction.label,
@@ -166,9 +170,14 @@ export default function Game({ line, audio, done, back, explore, play }) {
           ref={input}
           className="capture"
           inputMode="text"
+          enterKeyHint="next"
           autoComplete="off"
           autoCapitalize="off"
-          onChange={type}
+          onInput={(event) => {
+            const value = event.currentTarget.value;
+            event.currentTarget.value = "";
+            processInput(value);
+          }}
           aria-label={`Type ${station}`}
         />
       </section>
