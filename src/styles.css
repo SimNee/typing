@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Mono:wght@400;500&family=Manrope:wght@500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@500;600;700;800;900&display=swap");
 :root {
-  font-family: Manrope, system-ui, sans-serif;
+  font-family: Nunito, system-ui, sans-serif;
   color: #14243a;
   background: #eee7d7;
   font-synthesis: none;
@@ -792,7 +792,7 @@ header {
   box-shadow: 0 5px 24px rgba(20, 36, 58, 0.18);
 }
 .brand {
-  font-family: "Cormorant Garamond", serif;
+  font-family: Nunito, system-ui, sans-serif;
   font-size: 29px;
   letter-spacing: 0.2px;
 }
@@ -811,8 +811,8 @@ header .back:hover {
 .section-title h2,
 .results h2,
 .egg-prompt h2 {
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-weight: 700;
+  font-family: Nunito, system-ui, sans-serif;
+  font-weight: 900;
 }
 .hero h1 em {
   color: var(--gold);
@@ -863,7 +863,7 @@ header .back:hover {
   stroke: var(--gold-light);
 }
 .map-pin text {
-  font-family: Manrope, sans-serif;
+  font-family: Nunito, sans-serif;
   fill: var(--navy);
   stroke: #f8f0dc;
 }
@@ -902,7 +902,7 @@ header .back:hover {
 }
 .country-card b,
 .line-card b {
-  font-family: "Cormorant Garamond", serif;
+  font-family: Nunito, sans-serif;
   font-size: 22px;
 }
 .line-badge {
@@ -958,8 +958,8 @@ header .back:hover {
 }
 .landmark text {
   font:
-    600 1.25px "Cormorant Garamond",
-    serif;
+    700 1.25px Nunito,
+    sans-serif;
   fill: #405047;
   paint-order: stroke;
   stroke: #eee7d4;
@@ -974,7 +974,7 @@ header .back:hover {
   filter: drop-shadow(0 1px 0.3px rgba(20, 36, 58, 0.28));
 }
 .station-label {
-  font-family: Manrope, sans-serif;
+  font-family: Nunito, sans-serif;
   font-weight: 700;
   fill: var(--navy);
   stroke: #faf4e6;
@@ -1014,7 +1014,7 @@ header .back:hover {
   pointer-events: none;
 }
 .word {
-  font-family: "Cormorant Garamond", serif;
+  font-family: Nunito, sans-serif;
   letter-spacing: 0.2px;
 }
 .word .caret::after {

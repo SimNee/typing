@@ -893,33 +893,87 @@ function RouteMap({ line, index, bounce, celebrate }) {
 }
 function Train() {
   return (
-    <g filter="url(#shadow)">
+    <g className="cute-train" filter="url(#shadow)">
       <g className="steam">
-        <circle cx="-1" cy="-9" r="1" />
-        <circle cx="1" cy="-12" r="1.4" />
+        <circle cx="1.8" cy="-10" r="1.15" />
+        <circle cx="3.1" cy="-12.5" r="1.55" />
+        <circle cx="1.7" cy="-15" r=".85" />
       </g>
       <rect
-        x="-5"
-        y="-5"
-        width="10"
-        height="6.5"
-        rx="2"
-        fill="#fff7dc"
-        stroke="#173c4c"
+        x="1"
+        y="-9"
+        width="2.8"
+        height="4"
+        rx=".7"
+        fill="#d7a85d"
+        stroke="#14243a"
+        strokeWidth=".65"
+      />
+      <path d="M.4-9H4.4L3.5-10.4H1.3Z" fill="#14243a" />
+      <path
+        d="M-5.6-4.8V-7.2Q-5.6-8.4-4.3-8.4H-.7Q.5-8.4.5-7.2V-4.8"
+        fill="#f8df9c"
+        stroke="#14243a"
         strokeWidth=".7"
       />
-      <rect x="1.5" y="-8" width="2" height="3" rx=".4" fill="#173c4c" />
-      <rect x="-3.6" y="-4" width="2.5" height="2" rx=".5" fill="#9ed9e5" />
-      <circle cx="2.3" cy="-2.5" r=".5" fill="#173c4c" />
-      <circle cx="4" cy="-2.5" r=".5" fill="#173c4c" />
-      <path
-        d="M2.3-1 Q3.1-.2 4-1"
-        fill="none"
-        stroke="#173c4c"
-        strokeWidth=".4"
+      <rect
+        x="-6.4"
+        y="-5.5"
+        width="12.8"
+        height="7.5"
+        rx="3.4"
+        fill="#fff3cf"
+        stroke="#14243a"
+        strokeWidth=".8"
       />
-      <circle cx="-3" cy="2" r="1.2" fill="#173c4c" />
-      <circle cx="3" cy="2" r="1.2" fill="#173c4c" />
+      <path d="M-6-1.1H6" stroke="#d7a85d" strokeWidth=".7" />
+      <rect
+        x="-4.9"
+        y="-4.7"
+        width="3.9"
+        height="2.8"
+        rx="1"
+        fill="#9dd7df"
+        stroke="#14243a"
+        strokeWidth=".55"
+      />
+      <path
+        d="M-3.1-4.6V-2"
+        stroke="#fff"
+        strokeOpacity=".8"
+        strokeWidth=".45"
+      />
+      <circle cx="2.1" cy="-3" r=".7" fill="#14243a" />
+      <circle cx="4.5" cy="-3" r=".7" fill="#14243a" />
+      <circle cx="2.3" cy="-3.2" r=".18" fill="#fff" />
+      <circle cx="4.7" cy="-3.2" r=".18" fill="#fff" />
+      <circle cx="1.2" cy="-1.7" r=".55" fill="#efa4a6" opacity=".8" />
+      <circle cx="5.3" cy="-1.7" r=".55" fill="#efa4a6" opacity=".8" />
+      <path
+        d="M2.3-1.4Q3.3-.3 4.5-1.4"
+        fill="none"
+        stroke="#14243a"
+        strokeWidth=".5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M-1.2-.3C-.3-1.4 1-1.1 1 .1.9.9 0 1.5-1.2 2.2-2.4 1.5-3.2.9-3.3.1-3.3-1.1-2-1.4-1.2-.3Z"
+        fill="#d7a85d"
+        transform="scale(.35) translate(-3 1)"
+      />
+      {[-3.8, 0, 3.8].map((x) => (
+        <g key={x} transform={`translate(${x} 2)`}>
+          <circle r="1.55" fill="#14243a" />
+          <circle r=".82" fill="#d7a85d" />
+          <circle r=".3" fill="#fff3cf" />
+        </g>
+      ))}
+      <path
+        d="M-5.5 3.2H5.5"
+        stroke="#14243a"
+        strokeWidth=".6"
+        strokeLinecap="round"
+      />
     </g>
   );
 }
