@@ -74,9 +74,87 @@ function unlockedLine(country, i, p) {
 }
 
 function AudioEngine({ muted }) {
-  const ctx = useRef();
+  const ctx = useRef(),
+    melodyBus = useRef();
+  const melodyFamilies = useMemo(
+    () => [
+      {
+        root: 72,
+        notes: [0, 4, 7, 11, 7, 4, 2, 7],
+        steps: [1, 1, 1, 2, 1, 1, 1, 2],
+        wave: "square",
+      },
+      {
+        root: 69,
+        notes: [0, 2, 5, 9, 7, 5, 2, 0],
+        steps: [1, 1, 1, 1, 1, 1, 1, 2],
+        wave: "triangle",
+      },
+      {
+        root: 74,
+        notes: [0, 7, 5, 9, 7, 12, 9, 7],
+        steps: [1, 1, 1, 1, 1, 2, 1, 2],
+        wave: "sine",
+      },
+      {
+        root: 67,
+        notes: [0, 4, 2, 7, 5, 9, 7, 4],
+        steps: [1, 1, 1, 1, 1, 1, 1, 2],
+        wave: "square",
+      },
+      {
+        root: 71,
+        notes: [0, 3, 7, 10, 7, 5, 3, 0],
+        steps: [1, 1, 1, 2, 1, 1, 1, 2],
+        wave: "triangle",
+      },
+      {
+        root: 76,
+        notes: [0, -2, 0, 5, 4, 7, 5, 9],
+        steps: [1, 1, 1, 1, 1, 1, 1, 2],
+        wave: "sine",
+      },
+      {
+        root: 65,
+        notes: [0, 5, 9, 7, 12, 9, 7, 5],
+        steps: [1, 1, 1, 1, 2, 1, 1, 2],
+        wave: "square",
+      },
+      {
+        root: 72,
+        notes: [0, 2, 4, 7, 11, 9, 7, 4],
+        steps: [1, 1, 1, 1, 1, 1, 1, 2],
+        wave: "triangle",
+      },
+      {
+        root: 69,
+        notes: [0, 7, 4, 9, 5, 12, 9, 7],
+        steps: [1, 1, 1, 1, 1, 2, 1, 2],
+        wave: "sine",
+      },
+      {
+        root: 74,
+        notes: [0, 4, 9, 7, 5, 11, 9, 12],
+        steps: [1, 1, 1, 1, 1, 1, 1, 2],
+        wave: "square",
+      },
+    ],
+    [],
+  );
+  const stopMelody = () => {
+    const bus = melodyBus.current;
+    if (!bus || !ctx.current) return;
+    const now = ctx.current.currentTime;
+    bus.gain.cancelScheduledValues(now);
+    bus.gain.setTargetAtTime(0.0001, now, 0.035);
+    melodyBus.current = null;
+  };
+  useEffect(() => {
+    if (muted) stopMelody();
+  }, [muted]);
   return useMemo(
     () => ({
+      stopMelody,
       play(kind) {
         if (muted) return;
         ctx.current ??= new (
@@ -84,53 +162,70 @@ function AudioEngine({ muted }) {
         )();
         const c = ctx.current,
           now = c.currentTime;
-        if (kind === "yamanote") {
-          // A bright, synthesized railway-platform melody—kept asset-free so
-          // the easter egg works offline and follows the existing audio model.
-          [659, 740, 784, 988, 880, 784, 740, 659, 587, 659, 784, 740].forEach(
-            (frequency, i) => {
-              const o = c.createOscillator(),
-                g = c.createGain(),
-                at = now + i * 0.16;
-              o.type = "sine";
-              o.frequency.value = frequency;
-              g.gain.setValueAtTime(0.001, at);
-              g.gain.exponentialRampToValueAtTime(0.075, at + 0.02);
-              g.gain.exponentialRampToValueAtTime(0.001, at + 0.15);
-              o.connect(g).connect(c.destination);
-              o.start(at);
-              o.stop(at + 0.16);
-            },
-          );
-          return;
-        }
         const notes = {
           click: [520, 0.035, "sine"],
           error: [115, 0.11, "sawtooth"],
           ding: [660, 0.18, "sine"],
           fanfare: [523, 0.45, "triangle"],
         }[kind];
-        notes &&
-          (kind === "ding" || kind === "fanfare"
-            ? [0, kind === "ding" ? 4 : 7, 12]
-            : [0]
-          ).forEach((n, i) => {
+        if (!notes) return;
+        (kind === "ding" || kind === "fanfare"
+          ? [0, kind === "ding" ? 4 : 7, 12]
+          : [0]
+        ).forEach((n, i) => {
+          const o = c.createOscillator(),
+            g = c.createGain();
+          o.type = notes[2];
+          o.frequency.value = notes[0] * 2 ** (n / 12);
+          g.gain.setValueAtTime(0.075, now + i * 0.1);
+          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + notes[1]);
+          o.connect(g).connect(c.destination);
+          o.start(now + i * 0.1);
+          o.stop(now + i * 0.1 + notes[1]);
+        });
+      },
+      playArrival({ lineId, stationIndex }) {
+        if (muted || lineId !== "jp-yama") return;
+        ctx.current ??= new (
+          window.AudioContext || window.webkitAudioContext
+        )();
+        stopMelody();
+        const c = ctx.current,
+          start = c.currentTime + 0.025,
+          bus = c.createGain(),
+          family = melodyFamilies[stationIndex % melodyFamilies.length];
+        bus.gain.setValueAtTime(0.14, start);
+        bus.connect(c.destination);
+        melodyBus.current = bus;
+        let beat = 0;
+        family.notes.forEach((offset, i) => {
+          const at = start + beat * 0.145,
+            duration = Math.max(0.16, family.steps[i] * 0.14),
+            midi = family.root + offset;
+          [
+            { wave: family.wave, ratio: 1, gain: 0.48, decay: 0.13 },
+            { wave: "sine", ratio: 2, gain: 0.16, decay: 0.22 },
+            { wave: "triangle", ratio: 0.5, gain: 0.12, decay: 0.28 },
+          ].forEach((layer) => {
             const o = c.createOscillator(),
               g = c.createGain();
-            o.type = notes[2];
-            o.frequency.value = notes[0] * 2 ** (n / 12);
-            g.gain.setValueAtTime(0.09, now + i * 0.1);
+            o.type = layer.wave;
+            o.frequency.value = 440 * 2 ** ((midi - 69) / 12) * layer.ratio;
+            g.gain.setValueAtTime(0.0001, at);
+            g.gain.exponentialRampToValueAtTime(layer.gain, at + 0.012);
             g.gain.exponentialRampToValueAtTime(
-              0.001,
-              now + i * 0.1 + notes[1],
+              0.0001,
+              at + duration + layer.decay,
             );
-            o.connect(g).connect(c.destination);
-            o.start(now + i * 0.1);
-            o.stop(now + i * 0.1 + notes[1]);
+            o.connect(g).connect(bus);
+            o.start(at);
+            o.stop(at + duration + layer.decay + 0.03);
           });
+          beat += family.steps[i];
+        });
       },
     }),
-    [muted],
+    [muted, melodyFamilies],
   );
 }
 
@@ -177,7 +272,7 @@ export default function App() {
       easterEgg: true,
     });
     setEggPrompt(null);
-    audio.play("yamanote");
+    audio.playArrival({ lineId: "jp-yama", stationIndex: 0 });
     nav("play");
   };
   const play = (l) => {
@@ -509,6 +604,155 @@ function Lines({ country, progress, back, play }) {
   );
 }
 
+function LandmarkIcon({ type }) {
+  const common = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 0.7,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
+  if (type === "mountain")
+    return (
+      <>
+        <path {...common} d="M-6 4L-1-3 1-1 4-5 8 4Z" />
+        <path {...common} d="M-2-2L0 0 2-2" />
+      </>
+    );
+  if (type === "tower" || type === "clocktower")
+    return (
+      <>
+        <path {...common} d="M-2 5L-1-3 0-7 1-3 3 5M-3 5H4" />
+        {type === "clocktower" && <circle {...common} cy="-1" r="1.2" />}
+      </>
+    );
+  if (type === "twinTowers")
+    return (
+      <>
+        <path
+          {...common}
+          d="M-5 5V-3L-4-6-3-3V5M2 5V-3L3-6 4-3V5M-3-1H2M-6 5H5"
+        />
+      </>
+    );
+  if (type === "bridge")
+    return (
+      <>
+        <path
+          {...common}
+          d="M-8 4H8M-7 4V-2M7 4V-2M-7-1Q0 5 7-1M-8-3H-5M5-3H8"
+        />
+      </>
+    );
+  if (type === "wheel")
+    return (
+      <>
+        <circle {...common} r="6" />
+        <circle {...common} r="1" />
+        <path {...common} d="M0-6V6M-6 0H6M-4-4L4 4M4-4L-4 4" />
+      </>
+    );
+  if (type === "temple" || type === "castle")
+    return (
+      <>
+        <path
+          {...common}
+          d="M-7 5H7M-5 5V0H5V5M-7 0H7L4-2H-4ZM-4-3H4L2-5H-2Z"
+        />
+      </>
+    );
+  if (type === "palace" || type === "memorial")
+    return (
+      <>
+        <path
+          {...common}
+          d="M-8 5H8M-6 5V0H6V5M-8 0H8L5-3H-5ZM-3 1V5M0 1V5M3 1V5"
+        />
+      </>
+    );
+  if (type === "skyline" || type === "marina")
+    return (
+      <>
+        <path
+          {...common}
+          d="M-8 5V0H-5V5M-4 5V-5H-1V5M0 5V-2H3V5M4 5V-6H7V5M-9 5H8"
+        />
+        {type === "marina" && <path {...common} d="M-5-6Q0-8 7-7" />}
+      </>
+    );
+  if (type === "ferry" || type === "junk")
+    return (
+      <>
+        <path {...common} d="M-7 2H7L4 5H-4ZM0 2V-5M0-4L6 0H0Z" />
+        <path {...common} d="M-8 7Q-4 5 0 7T8 7" />
+      </>
+    );
+  if (type === "torii")
+    return (
+      <>
+        <path {...common} d="M-6 5V-3M6 5V-3M-8-4H8M-6-1H6" />
+      </>
+    );
+  if (type === "skyscraper")
+    return (
+      <>
+        <path
+          {...common}
+          d="M-3 6V-2H-2V-5H-1V-8H1V-5H2V-2H3V6ZM-5 6H5M-2 1H2M-2 3H2"
+        />
+      </>
+    );
+  if (type === "jewel")
+    return (
+      <>
+        <ellipse {...common} rx="7" ry="4" />
+        <path {...common} d="M-7 0Q0-8 7 0M-4 3Q0-2 4 3" />
+      </>
+    );
+  if (type === "supertrees")
+    return (
+      <>
+        <path {...common} d="M-4 6V-1M4 6V-2M-8-2Q-4-7 0-2M0-3Q4-8 8-3" />
+      </>
+    );
+  if (type === "merlion")
+    return (
+      <>
+        <path {...common} d="M-5 5Q-2 1-3-3L0-6 2-3Q6-1 5 5ZM1-1Q6-4 8-2" />
+      </>
+    );
+  if (type === "lanterns")
+    return (
+      <>
+        <path {...common} d="M-7-5H7M-5-5V-2M0-5V-1M5-5V-2" />
+        <rect {...common} x="-7" y="-2" width="4" height="5" rx="1" />
+        <rect {...common} x="-2" y="-1" width="4" height="5" rx="1" />
+        <rect {...common} x="3" y="-2" width="4" height="5" rx="1" />
+      </>
+    );
+  return <circle {...common} r="5" />;
+}
+
+function LandmarkLayer({ countryId }) {
+  const country = countries.find((candidate) => candidate.id === countryId);
+  return (
+    <g className="landmarks" aria-hidden="true">
+      {country?.landmarks.map((landmark) => (
+        <g
+          key={landmark.id}
+          className="landmark"
+          transform={`translate(${landmark.x} ${landmark.y}) scale(${landmark.scale})`}
+        >
+          <LandmarkIcon type={landmark.icon} />
+          <text y="9" textAnchor="middle">
+            {landmark.label}
+          </text>
+        </g>
+      ))}
+    </g>
+  );
+}
+
 function routePath(points) {
   if (points.length < 2) return "";
   let d = `M${points[0]}`;
@@ -547,10 +791,10 @@ function RouteMap({ line, index, bounce, celebrate }) {
   const countryFeature = worldGeo.features.find(
     (f) => f.properties.ADM0_A3 === mapMeta[line.countryId]?.iso,
   );
-  const vb =
-    line.countryId === "sg"
-      ? "0 7 100 78"
-      : `${Math.max(-2, cur.x - 50)} ${Math.max(-2, cur.y - 43)} 100 86`;
+  const viewX = line.countryId === "sg" ? 0 : Math.max(-2, cur.x - 50),
+    viewY = line.countryId === "sg" ? 7 : Math.max(-2, cur.y - 43),
+    viewHeight = line.countryId === "sg" ? 78 : 86,
+    vb = `${viewX} ${viewY} 100 ${viewHeight}`;
   return (
     <div className="map-wrap">
       <svg className="map" viewBox={vb} aria-label={`${line.name} route map`}>
@@ -568,13 +812,29 @@ function RouteMap({ line, index, bounce, celebrate }) {
             <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity=".25" />
           </filter>
         </defs>
-        <rect x="-5" y="-5" width="115" height="110" fill="#a8d6df" />
-        <rect x="-5" y="-5" width="115" height="110" fill="url(#grid)" />
+        <rect
+          x={viewX - 5}
+          y={viewY - 5}
+          width="110"
+          height={viewHeight + 10}
+          fill="#a8d6df"
+        />
+        <rect
+          x={viewX - 5}
+          y={viewY - 5}
+          width="110"
+          height={viewHeight + 10}
+          fill="url(#grid)"
+        />
         <path className="land" d={featurePath(countryFeature, true)} />
-        <text x="7" y="11" className="map-label">
+        <LandmarkLayer countryId={line.countryId} />
+        <text x={viewX + 7} y={viewY + 11} className="map-label">
           {line.city} · {line.name}
         </text>
-        <g className="compass" transform="translate(92 12)">
+        <g
+          className="compass"
+          transform={`translate(${viewX + 92} ${viewY + 12})`}
+        >
           <circle r="5" />
           <path d="M0-4L1 0 0 4-1 0Z" />
           <text y="-6">N</text>
@@ -697,7 +957,14 @@ function Game({ line, audio, done, back, progress, play }) {
         correctNow.current++;
         setCorrect(correctNow.current);
         if (posNow.current + 1 === target.length) {
-          audio.play("ding");
+          if (line.id === "jp-yama" && line.easterEgg) {
+            audio.playArrival({
+              lineId: line.id,
+              stationIndex: Math.min(idx + 1, line.stations.length - 1),
+            });
+          } else {
+            audio.play("ding");
+          }
           setBounce(true);
           setTimeout(() => setBounce(false), 420);
           if (idx + 1 === line.stations.length) {

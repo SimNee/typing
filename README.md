@@ -23,6 +23,7 @@ Progress, settings, driver identity, and the v1 leaderboard are saved in `localS
 ## Project structure
 
 - `src/data.js` — countries, lines, ordered stations, official colors, and normalized route waypoints.
+- Country entries also expose `landmarks: [{ id, label, icon, x, y, scale }]` for the engraved atlas layer.
 - `src/assets/world.json` — bundled Natural Earth country boundaries used by the world and play maps.
 - `src/storage.js` — progress helpers and the asynchronous leaderboard storage interface.
 - `src/App.jsx` — screens, typing/scoring engine, Web Audio, route map, and train.
@@ -46,6 +47,8 @@ L(
 Waypoints use a 0–100 coordinate space. Use a handful of points that describe the route's geographic silhouette; the SVG renderer smooths them into a curve and spaces stations evenly by path length. A closed loop should repeat its first waypoint as its last waypoint.
 
 Country outlines come from the public-domain [Natural Earth](https://www.naturalearthdata.com/) dataset and are bundled so the map works offline. Add the country's ISO-3 code and city coordinates to `mapMeta` in `src/App.jsx` when adding a destination.
+
+Landmark icons are code-native SVG drawings registered in `LandmarkIcon`. Coordinates use the same 0–100 map space as routes. Keep landmarks outside dense station-label clusters where possible.
 
 To add a country, append a `{ id, flag, name, city, system, lines }` object. Unlocking follows array order automatically. Keep IDs stable after release because progress is keyed by line ID.
 
