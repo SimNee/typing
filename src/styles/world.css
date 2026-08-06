@@ -1,0 +1,134 @@
+.country-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.world-map-wrap {
+  background: #a8d6df;
+  border: 1px solid #8fbfc9;
+  border-radius: 22px;
+  overflow: hidden;
+  margin: 0 0 22px;
+  box-shadow: 0 5px 0 #c8d4ce;
+  position: relative;
+}
+.world-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 270px;
+}
+.countries-shape path {
+  fill: #e1e8cb;
+  stroke: #fff9e9;
+  stroke-width: 1;
+}
+.map-pin {
+  cursor: pointer;
+  outline: none;
+}
+.map-pin > circle:not(.pin-pulse) {
+  fill: #e6502a;
+  stroke: #fff;
+  stroke-width: 3;
+}
+.map-pin text {
+  font: 800 13px Nunito;
+  fill: #153a48;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 4;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.map-pin .pin-lock {
+  font-size: 12px;
+  fill: #fff;
+  stroke: none;
+}
+.pin-pulse {
+  fill: #e6502a;
+  opacity: 0.2;
+  animation: pinpulse 1.8s infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.map-pin:hover .pin-pulse,
+.map-pin:focus .pin-pulse {
+  opacity: 0.45;
+}
+.map-pin.pin-locked {
+  cursor: not-allowed;
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+.map-note {
+  position: absolute;
+  left: 16px;
+  bottom: 10px;
+  margin: 0;
+  background: #fffdf7dd;
+  border-radius: 99px;
+  padding: 7px 11px;
+  font: 700 10px Nunito;
+  color: #587078;
+}
+.country-card,
+.line-card {
+  border: 1px solid #ddd5c8;
+  background: #fffdf7;
+  border-radius: 17px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #ded7cb;
+  transition:
+    0.18s transform,
+    0.18s box-shadow;
+}
+.country-card:hover,
+.line-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 0 #d7d0c4;
+}
+.country-card .flag {
+  font-size: 38px;
+}
+.country-card b,
+.line-card b {
+  display: block;
+  font-size: 18px;
+}
+.country-card small,
+.line-card small {
+  display: block;
+  color: #7b898d;
+  margin-top: 4px;
+}
+.card-end {
+  margin-left: auto;
+  text-align: right;
+  color: #d39a00;
+  font-weight: 800;
+}
+.card-end i {
+  font-size: 26px;
+  margin-left: 13px;
+  font-style: normal;
+}
+.card-end small {
+  max-width: 120px;
+}
+.locked {
+  filter: grayscale(0.5);
+  opacity: 0.52;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+}
+.locked.secret-stop,
+.pin-locked.secret-stop {
+  cursor: pointer !important;
+}

@@ -1,0 +1,43 @@
+.line-head {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 30px 0 48px;
+}
+.line-head h1 {
+  font-size: 58px;
+  margin-bottom: 8px;
+}
+.bigflag {
+  font-size: 78px;
+}
+.line-list {
+  display: grid;
+  gap: 14px;
+}
+.line-card {
+  width: 100%;
+  padding: 17px 20px;
+}
+.line-badge {
+  color: white;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  font: 800 15px Nunito;
+  flex: none;
+}
+.line-score {
+  margin-left: auto;
+  text-align: right;
+}
+.line-score i {
+  font-style: normal;
+  color: #d4d0c8;
+  font-size: 20px;
+}
+.line-score i.on {
+  color: #ffc23a;
+}

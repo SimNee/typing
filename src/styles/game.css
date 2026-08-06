@@ -1,0 +1,335 @@
+.play {
+  background: #b1dbe3;
+  min-height: calc(100vh - 72px);
+  padding-bottom: 90px;
+  position: relative;
+}
+.play-top {
+  position: absolute;
+  top: 15px;
+  left: 4%;
+  right: 4%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 8;
+}
+.mapback {
+  background: #fff !important;
+  box-shadow: 0 2px 8px #31515d33;
+}
+.run-metrics {
+  display: flex;
+  gap: 8px;
+}
+.run-metrics span {
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+  box-shadow: 0 2px 8px #31515d33;
+}
+.map-wrap {
+  height: min(62vh, 600px);
+  position: relative;
+  overflow: hidden;
+}
+.map {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.land {
+  fill: #dce5c5;
+  stroke: #c7d4b0;
+  stroke-width: 0.8;
+}
+.map-label {
+  font: 800 2.3px Nunito;
+  fill: #45636b;
+  text-transform: uppercase;
+}
+.compass circle {
+  fill: #fff;
+  stroke: #607d84;
+  stroke-width: 0.3;
+}
+.compass path {
+  fill: #e6502a;
+}
+.compass text {
+  font: 800 2px Nunito;
+  text-anchor: middle;
+  fill: #45636b;
+}
+.route-case {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.route {
+  fill: none;
+  stroke-width: 3.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.stop circle {
+  fill: #e4e7e4;
+  stroke: #fff;
+  stroke-width: 0.7;
+}
+.stop.current circle {
+  stroke: #153a48;
+  stroke-width: 0.9;
+}
+.check {
+  font: 900 1.6px Nunito;
+  fill: #fff;
+}
+.station-label {
+  font: 800 1.8px Nunito;
+  fill: #173c4c;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+}
+.train {
+  transition: transform 0.65s cubic-bezier(0.22, 0.8, 0.25, 1);
+}
+.steam circle {
+  fill: #fff;
+  animation: steam 1.6s infinite;
+}
+.steam circle + circle {
+  animation-delay: 0.6s;
+}
+.chug {
+  animation: chug 0.38s;
+}
+.party {
+  animation: party 0.6s infinite alternate;
+}
+.confetti {
+  position: absolute;
+  inset: 20% 0 auto;
+  text-align: center;
+  color: #ff6b35;
+  font-size: 55px;
+  animation: pop 0.5s;
+}
+.typing-card {
+  width: min(760px, calc(100% - 28px));
+  margin: -35px auto 0;
+  background: #fffdf8;
+  border-radius: 22px;
+  padding: 24px 28px 28px;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 13px 35px #20485633;
+  border: 1px solid #ffffff;
+}
+.station-progress {
+  display: flex;
+  justify-content: space-between;
+  font: 800 10px Nunito;
+  color: #74868b;
+}
+.progressbar {
+  height: 5px;
+  background: #ebe8e1;
+  border-radius: 9px;
+  margin: 10px 0 21px;
+  overflow: hidden;
+}
+.progressbar i {
+  height: 100%;
+  display: block;
+  transition: width 0.5s;
+}
+.hint {
+  text-align: center;
+  text-transform: uppercase;
+  font: 800 11px Nunito;
+  color: #879398;
+  letter-spacing: 1px;
+  margin: 0;
+}
+.word {
+  text-align: center;
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin: 6px 0 9px;
+  line-height: 1.15;
+}
+.word .pending {
+  color: #bac1c1;
+}
+.word .caret {
+  color: #294b57;
+  position: relative;
+}
+.word .caret:after {
+  content: "";
+  position: absolute;
+  height: 4px;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  background: #ffb627;
+  animation: blink 0.8s infinite;
+}
+.instruction {
+  text-align: center;
+  color: #8b9698;
+  margin: 0;
+  font-size: 13px;
+}
+.capture {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  left: 50%;
+  bottom: 0;
+}
+.shake {
+  animation: shake 0.24s;
+}
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: #153a48b8;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  backdrop-filter: blur(5px);
+}
+.results {
+  background: #fffaf0;
+  width: min(530px, 100%);
+  border-radius: 24px;
+  padding: 35px;
+  text-align: center;
+  box-shadow: 0 25px 80px #0e2730;
+}
+.egg-prompt {
+  width: min(440px, 100%);
+  background: #fffaf0;
+  border-radius: 24px;
+  padding: 36px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 25px 80px #0e2730;
+}
+.egg-icon {
+  display: block;
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+.egg-prompt h2 {
+  margin: 0 0 22px;
+  font-size: 28px;
+  line-height: 1.2;
+}
+.egg-prompt input {
+  width: 100%;
+  border: 2px solid #cfc8bc;
+  border-radius: 11px;
+  padding: 13px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.egg-prompt .primary {
+  width: 100%;
+  border: 0;
+  border-radius: 11px;
+  padding: 12px;
+  background: #84bd00;
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+.egg-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: 0;
+  background: transparent;
+  font-size: 26px;
+  cursor: pointer;
+}
+.results h2 {
+  font-size: 40px;
+  margin: 0;
+}
+.results > p:not(.eyebrow) {
+  color: #738286;
+}
+.result-stars {
+  font-size: 58px;
+  letter-spacing: 8px;
+  margin: 18px;
+}
+.result-stars span {
+  display: inline-block;
+  color: #d9d5ca;
+  animation: pop 0.45s both;
+}
+.result-stars .won {
+  color: #ffc13b;
+  text-shadow: 0 3px 0 #d89500;
+}
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #e1dbcf;
+  border-radius: 15px;
+  background: #fff;
+}
+.result-grid div {
+  padding: 16px;
+  border-right: 1px solid #e1dbcf;
+}
+.result-grid div:last-child {
+  border: 0;
+}
+.result-grid b {
+  font-size: 25px;
+  display: block;
+}
+.result-grid small {
+  font: 800 9px Nunito;
+  color: #879296;
+}
+.next-tier {
+  margin: 14px 0;
+  background: #ebe7df;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.result-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 18px;
+}
+.result-actions button {
+  flex: 1;
+  border: 1px solid #d9d1c4;
+  background: white;
+  border-radius: 10px;
+  padding: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.result-actions .primary {
+  background: #e6502a;
+  color: #fff;
+  border-color: #e6502a;
+}

@@ -1,0 +1,91 @@
+@media (max-width: 700px) {
+  header {
+    height: 62px;
+    padding: 0 14px;
+  }
+  .brand {
+    font-size: 21px;
+  }
+  .brand span {
+    width: 32px;
+    height: 32px;
+  }
+  nav button:not(.icon) {
+    display: none;
+  }
+  .shell {
+    padding: 35px 15px 70px;
+  }
+  .hero {
+    padding: 20px 0 55px;
+  }
+  .hero h1 {
+    letter-spacing: -2.5px;
+  }
+  .country-grid {
+    grid-template-columns: 1fr;
+  }
+  .country-card {
+    padding: 15px;
+  }
+  .line-head {
+    gap: 15px;
+  }
+  .bigflag {
+    font-size: 52px;
+  }
+  .line-head h1 {
+    font-size: 42px;
+  }
+  .line-card {
+    align-items: flex-start;
+  }
+  .line-card > span:nth-child(2) small {
+    max-width: 180px;
+  }
+  .line-score {
+    font-size: 12px;
+  }
+  .map-wrap {
+    height: 54vh;
+    min-height: 410px;
+  }
+  .typing-card {
+    margin: -18px auto 0;
+    padding: 20px 16px;
+  }
+  .word {
+    overflow-wrap: anywhere;
+  }
+  .results {
+    padding: 28px 18px;
+  }
+  .results h2 {
+    font-size: 32px;
+  }
+  .result-actions {
+    flex-wrap: wrap;
+  }
+  .result-actions button {
+    min-width: 30%;
+  }
+  .board {
+    overflow-x: auto;
+  }
+  .board-row {
+    min-width: 570px;
+  }
+  .leaderboard h1 {
+    font-size: 48px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *:before,
+  *:after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

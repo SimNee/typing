@@ -1,0 +1,254 @@
+:root {
+  font-family: Nunito, system-ui, sans-serif;
+  color: #14243a;
+  background: #eee7d7;
+  font-synthesis: none;
+  --ink: #14243a;
+  --navy: #14243a;
+  --navy-soft: #223754;
+  --cream: #f7f1e4;
+  --paper: #eee7d7;
+  --gold: #b69550;
+  --gold-light: #d9c28b;
+  --yellow: #c5a35d;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 20% 10%, #fff9e9 0, transparent 30%), #f5f0e6;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  color: inherit;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid #ff9f1c;
+  outline-offset: 3px;
+}
+header {
+  height: 72px;
+  padding: 0 max(24px, calc((100vw - 1120px) / 2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d8d2c7;
+  background: #fffaf0cc;
+  backdrop-filter: blur(12px);
+  position: relative;
+  z-index: 20;
+}
+.brand {
+  font-size: 25px;
+  font-weight: 900;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  letter-spacing: -1px;
+}
+.brand span {
+  display: inline-grid;
+  place-items: center;
+  background: var(--yellow);
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  margin-right: 8px;
+}
+nav {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+nav button,
+.back {
+  border: 0;
+  background: transparent;
+  font-weight: 800;
+  padding: 10px 13px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+nav button:hover,
+.back:hover {
+  background: #eae4d8;
+}
+.icon {
+  font-size: 18px;
+}
+.shell {
+  max-width: 1120px;
+  margin: auto;
+  padding: 55px 24px 90px;
+}
+.loading-screen {
+  min-height: calc(100vh - 72px);
+  color: #697b80;
+  font-weight: 800;
+}
+.hero {
+  padding: 24px 0 76px;
+  position: relative;
+}
+.hero:after {
+  content: "⌁";
+  position: absolute;
+  right: 6%;
+  top: 5%;
+  font-size: 190px;
+  color: #d3e7e4;
+  transform: rotate(-9deg);
+  z-index: -1;
+}
+.eyebrow {
+  font:
+    800 12px Nunito,
+    sans-serif;
+  letter-spacing: 2px;
+  color: #75858a;
+  margin: 0 0 14px;
+}
+.hero h1,
+.line-head h1,
+.leaderboard h1 {
+  font-size: clamp(47px, 7vw, 80px);
+  line-height: 0.98;
+  letter-spacing: -4px;
+  margin: 0 0 22px;
+  font-weight: 900;
+}
+.hero h1 em {
+  font-style: normal;
+  color: #e6502a;
+}
+.hero > p:not(.eyebrow),
+.line-head p,
+.leaderboard > p {
+  font-size: 18px;
+  color: #697b80;
+}
+.stats {
+  display: inline-flex;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #ddd5c8;
+  border-radius: 99px;
+  padding: 11px 18px;
+  margin-top: 18px;
+  box-shadow: 0 4px 0 #ded7cb;
+}
+.stats b {
+  color: #e6502a;
+}
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 22px;
+}
+.section-title h2 {
+  font-size: 34px;
+  margin: 0;
+}
+.section-title > span {
+  font: 700 12px Nunito;
+  background: #e6e0d5;
+  padding: 8px 12px;
+  border-radius: 99px;
+}
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #8a938f;
+  font-size: 12px;
+}
+@keyframes shake {
+  25% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+@keyframes pinpulse {
+  50% {
+    transform: scale(1.35);
+    opacity: 0.05;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes chug {
+  35% {
+    transform: translateY(-5px) rotate(-3deg);
+  }
+  70% {
+    transform: translateY(1px) rotate(2deg);
+  }
+}
+@keyframes steam {
+  to {
+    transform: translateY(-5px);
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2);
+  }
+}
+@keyframes party {
+  to {
+    transform: translateY(-3px) rotate(6deg);
+  }
+}
+/* Luxury atlas design layer */
+body {
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(90deg, rgba(20, 36, 58, 0.025) 1px, transparent 1px),
+    linear-gradient(rgba(20, 36, 58, 0.02) 1px, transparent 1px),
+    radial-gradient(circle at 22% 12%, #fffaf0 0, transparent 34%);
+  background-size:
+    32px 32px,
+    32px 32px,
+    auto;
+}
+header {
+  background: rgba(20, 36, 58, 0.97);
+  border-bottom: 2px solid var(--gold);
+  color: #f8f1df;
+  box-shadow: 0 5px 24px rgba(20, 36, 58, 0.18);
+}
+.brand {
+  font-family: Nunito, system-ui, sans-serif;
+  font-size: 29px;
+  letter-spacing: 0.2px;
+}
+.brand span {
+  background: linear-gradient(145deg, #ddc687, #a9833f);
+  border: 1px solid #f5dfaa;
+  box-shadow: inset 0 0 0 2px #17304a;
+}
+nav button:hover,
+header .back:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
