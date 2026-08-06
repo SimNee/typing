@@ -811,6 +811,23 @@ function RouteMap({ line, index, bounce, celebrate }) {
           <filter id="shadow">
             <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity=".25" />
           </filter>
+          <linearGradient id="trainBody" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#fff9e8" />
+            <stop offset=".55" stopColor="#ffe6a8" />
+            <stop offset="1" stopColor="#efbd68" />
+          </linearGradient>
+          <linearGradient id="trainRoof" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#315b78" />
+            <stop offset="1" stopColor="#14243a" />
+          </linearGradient>
+          <linearGradient id="trainWindow" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#d8f4f3" />
+            <stop offset="1" stopColor="#72b8c8" />
+          </linearGradient>
+          <radialGradient id="trainGold">
+            <stop offset="0" stopColor="#f8dc8b" />
+            <stop offset="1" stopColor="#b77b2f" />
+          </radialGradient>
         </defs>
         <rect
           x={viewX - 5}
@@ -905,14 +922,20 @@ function Train() {
         width="2.8"
         height="4"
         rx=".7"
-        fill="#d7a85d"
+        fill="url(#trainGold)"
         stroke="#14243a"
         strokeWidth=".65"
       />
       <path d="M.4-9H4.4L3.5-10.4H1.3Z" fill="#14243a" />
       <path
         d="M-5.6-4.8V-7.2Q-5.6-8.4-4.3-8.4H-.7Q.5-8.4.5-7.2V-4.8"
-        fill="#f8df9c"
+        fill="url(#trainBody)"
+        stroke="#14243a"
+        strokeWidth=".7"
+      />
+      <path
+        d="M-6.4-7Q-5-9.4-2.7-9.4T1-7Z"
+        fill="url(#trainRoof)"
         stroke="#14243a"
         strokeWidth=".7"
       />
@@ -922,18 +945,25 @@ function Train() {
         width="12.8"
         height="7.5"
         rx="3.4"
-        fill="#fff3cf"
+        fill="url(#trainBody)"
         stroke="#14243a"
         strokeWidth=".8"
       />
-      <path d="M-6-1.1H6" stroke="#d7a85d" strokeWidth=".7" />
+      <path d="M-6-1.1H6" stroke="#b77b2f" strokeWidth=".7" />
+      <path
+        d="M-5.7-4.9Q0-6.2 5.8-4.9"
+        fill="none"
+        stroke="#fff"
+        strokeOpacity=".8"
+        strokeWidth=".55"
+      />
       <rect
         x="-4.9"
         y="-4.7"
         width="3.9"
         height="2.8"
         rx="1"
-        fill="#9dd7df"
+        fill="url(#trainWindow)"
         stroke="#14243a"
         strokeWidth=".55"
       />
@@ -943,6 +973,20 @@ function Train() {
         strokeOpacity=".8"
         strokeWidth=".45"
       />
+      <g className="tiny-conductor" transform="translate(-3 -3.15)">
+        <circle cx="-.65" cy="-1" r=".45" fill="#9a663d" />
+        <circle cx=".65" cy="-1" r=".45" fill="#9a663d" />
+        <circle r="1.05" fill="#c98e58" stroke="#14243a" strokeWidth=".25" />
+        <circle cx="-.34" cy="-.1" r=".13" fill="#14243a" />
+        <circle cx=".34" cy="-.1" r=".13" fill="#14243a" />
+        <path
+          d="M-.25.35Q0 .6.25.35"
+          fill="none"
+          stroke="#14243a"
+          strokeWidth=".15"
+        />
+        <path d="M-1-1H1L.65-1.65H-.65Z" fill="#315b78" />
+      </g>
       <circle cx="2.1" cy="-3" r=".7" fill="#14243a" />
       <circle cx="4.5" cy="-3" r=".7" fill="#14243a" />
       <circle cx="2.3" cy="-3.2" r=".18" fill="#fff" />
@@ -956,6 +1000,21 @@ function Train() {
         strokeWidth=".5"
         strokeLinecap="round"
       />
+      <circle
+        cx="6"
+        cy="-.25"
+        r=".75"
+        fill="url(#trainGold)"
+        stroke="#14243a"
+        strokeWidth=".4"
+      />
+      <circle cx="6.1" cy="-.4" r=".22" fill="#fff8d8" />
+      <path
+        d="M6 1.2L8 2.7H5.6Z"
+        fill="#d59b49"
+        stroke="#14243a"
+        strokeWidth=".4"
+      />
       <path
         d="M-1.2-.3C-.3-1.4 1-1.1 1 .1.9.9 0 1.5-1.2 2.2-2.4 1.5-3.2.9-3.3.1-3.3-1.1-2-1.4-1.2-.3Z"
         fill="#d7a85d"
@@ -964,7 +1023,7 @@ function Train() {
       {[-3.8, 0, 3.8].map((x) => (
         <g key={x} transform={`translate(${x} 2)`}>
           <circle r="1.55" fill="#14243a" />
-          <circle r=".82" fill="#d7a85d" />
+          <circle r=".82" fill="url(#trainGold)" />
           <circle r=".3" fill="#fff3cf" />
         </g>
       ))}

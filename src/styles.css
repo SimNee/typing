@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap");
 :root {
   font-family: Nunito, system-ui, sans-serif;
   color: #14243a;
@@ -105,8 +105,8 @@ nav button:hover,
 }
 .eyebrow {
   font:
-    800 12px DM Mono,
-    monospace;
+    800 12px Nunito,
+    sans-serif;
   letter-spacing: 2px;
   color: #75858a;
   margin: 0 0 14px;
@@ -154,7 +154,7 @@ nav button:hover,
   margin: 0;
 }
 .section-title > span {
-  font: 600 12px DM Mono;
+  font: 700 12px Nunito;
   background: #e6e0d5;
   padding: 8px 12px;
   border-radius: 99px;
@@ -231,7 +231,7 @@ nav button:hover,
   background: #fffdf7dd;
   border-radius: 99px;
   padding: 7px 11px;
-  font: 600 10px DM Mono;
+  font: 700 10px Nunito;
   color: #587078;
 }
 .country-card,
@@ -321,7 +321,7 @@ nav button:hover,
   width: 54px;
   height: 54px;
   border-radius: 14px;
-  font: 800 15px DM Mono;
+  font: 800 15px Nunito;
   flex: none;
 }
 .line-score {
@@ -382,7 +382,7 @@ nav button:hover,
   stroke-width: 0.8;
 }
 .map-label {
-  font: 700 2.3px DM Mono;
+  font: 800 2.3px Nunito;
   fill: #45636b;
   text-transform: uppercase;
 }
@@ -395,7 +395,7 @@ nav button:hover,
   fill: #e6502a;
 }
 .compass text {
-  font: 700 2px DM Mono;
+  font: 800 2px Nunito;
   text-anchor: middle;
   fill: #45636b;
 }
@@ -471,7 +471,7 @@ nav button:hover,
 .station-progress {
   display: flex;
   justify-content: space-between;
-  font: 700 10px DM Mono;
+  font: 800 10px Nunito;
   color: #74868b;
 }
 .progressbar {
@@ -489,7 +489,7 @@ nav button:hover,
 .hint {
   text-align: center;
   text-transform: uppercase;
-  font: 700 11px DM Mono;
+  font: 800 11px Nunito;
   color: #879398;
   letter-spacing: 1px;
   margin: 0;
@@ -640,7 +640,7 @@ nav button:hover,
   display: block;
 }
 .result-grid small {
-  font: 600 9px DM Mono;
+  font: 800 9px Nunito;
   color: #879296;
 }
 .next-tier {
@@ -710,7 +710,7 @@ nav button:hover,
 .board-head {
   background: #193d49;
   color: white;
-  font: 600 10px DM Mono;
+  font: 800 10px Nunito;
   text-transform: uppercase;
 }
 .board-row.me {
