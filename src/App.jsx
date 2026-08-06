@@ -84,6 +84,26 @@ function AudioEngine({ muted }) {
         )();
         const c = ctx.current,
           now = c.currentTime;
+        if (kind === "yamanote") {
+          // A bright, synthesized railway-platform melody—kept asset-free so
+          // the easter egg works offline and follows the existing audio model.
+          [659, 740, 784, 988, 880, 784, 740, 659, 587, 659, 784, 740].forEach(
+            (frequency, i) => {
+              const o = c.createOscillator(),
+                g = c.createGain(),
+                at = now + i * 0.16;
+              o.type = "sine";
+              o.frequency.value = frequency;
+              g.gain.setValueAtTime(0.001, at);
+              g.gain.exponentialRampToValueAtTime(0.075, at + 0.02);
+              g.gain.exponentialRampToValueAtTime(0.001, at + 0.15);
+              o.connect(g).connect(c.destination);
+              o.start(at);
+              o.stop(at + 0.16);
+            },
+          );
+          return;
+        }
         const notes = {
           click: [520, 0.035, "sine"],
           error: [115, 0.11, "sawtooth"],
@@ -117,7 +137,8 @@ function AudioEngine({ muted }) {
 export default function App() {
   const [screen, setScreen] = useState("world"),
     [country, setCountry] = useState(null),
-    [line, setLine] = useState(null);
+    [line, setLine] = useState(null),
+    [eggPrompt, setEggPrompt] = useState(null);
   const [progress, setProgress] = useState(loadProgress),
     [settings, setSettings] = useState(() => ({
       muted: false,
@@ -132,8 +153,32 @@ export default function App() {
     scrollTo(0, 0);
   };
   const openCountry = (c) => {
+    if (c.id === "jp") {
+      setEggPrompt(c);
+      return;
+    }
     setCountry(c);
     nav("lines");
+  };
+  const answerEasterEgg = (answer) => {
+    if (clean(answer || "") !== "minecraft") {
+      setEggPrompt(null);
+      return;
+    }
+    const yamanote = eggPrompt.lines.find(
+      (candidate) => candidate.id === "jp-yama",
+    );
+    setCountry(eggPrompt);
+    setLine({
+      ...yamanote,
+      countryId: eggPrompt.id,
+      country: eggPrompt.name,
+      city: "Tokyo",
+      easterEgg: true,
+    });
+    setEggPrompt(null);
+    audio.play("yamanote");
+    nav("play");
   };
   const play = (l) => {
     setLine({
@@ -223,7 +268,52 @@ export default function App() {
           back={() => nav("world")}
         />
       )}
+      {eggPrompt && (
+        <EasterEggPrompt
+          submit={answerEasterEgg}
+          close={() => setEggPrompt(null)}
+        />
+      )}
       <footer>Ride the rails. Master the keys.</footer>
+    </div>
+  );
+}
+
+function EasterEggPrompt({ submit, close }) {
+  const [answer, setAnswer] = useState("");
+  return (
+    <div className="modal-bg">
+      <form
+        className="egg-prompt"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="egg-question"
+        onSubmit={(e) => {
+          e.preventDefault();
+          submit(answer);
+        }}
+      >
+        <button
+          type="button"
+          className="egg-close"
+          onClick={close}
+          aria-label="Close"
+        >
+          ×
+        </button>
+        <span className="egg-icon">🚉</span>
+        <h2 id="egg-question">what does this line reminds you of?</h2>
+        <input
+          autoFocus
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
+          aria-label="Easter egg answer"
+          autoComplete="off"
+        />
+        <button type="submit" className="primary">
+          Answer
+        </button>
+      </form>
     </div>
   );
 }
@@ -244,17 +334,18 @@ function WorldMap({ progress, open }) {
         </g>
         {countries.map((c, i) => {
           const ok = unlockedCountry(i, progress),
+            canSelect = ok || c.id === "jp",
             [x, y] = mercator([mapMeta[c.id].lon, mapMeta[c.id].lat]);
           return (
             <g
               key={c.id}
-              className={`map-pin ${ok ? "" : "pin-locked"}`}
+              className={`map-pin ${ok ? "" : "pin-locked"} ${c.id === "jp" ? "secret-stop" : ""}`}
               transform={`translate(${x} ${y})`}
-              onClick={() => ok && open(c)}
+              onClick={() => canSelect && open(c)}
               role="button"
-              tabIndex={ok ? 0 : -1}
+              tabIndex={canSelect ? 0 : -1}
               onKeyDown={(e) => {
-                if (ok && (e.key === "Enter" || e.key === " ")) open(c);
+                if (canSelect && (e.key === "Enter" || e.key === " ")) open(c);
               }}
               aria-label={`${c.name}${ok ? "" : " locked"}`}
             >
@@ -321,8 +412,8 @@ function World({ progress, open }) {
               );
             return (
               <button
-                className={"country-card " + (!ok ? "locked" : "")}
-                disabled={!ok}
+                className={`country-card ${!ok ? "locked" : ""} ${c.id === "jp" ? "secret-stop" : ""}`}
+                disabled={!ok && c.id !== "jp"}
                 onClick={() => open(c)}
                 key={c.id}
               >
